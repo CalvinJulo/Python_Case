@@ -67,15 +67,15 @@ def main():
     text=' '.join(jieba.cut(comments))
 
 
-    background = np.array(Image.open('/Users/zcglook/Desktop/多特蒙德&耕3.jpg'))
-    s=open("/Users/zcglook/Desktop/stopwords-list/stopwords.txt").read()
+    background = np.array(Image.open('测试.jpg'))
+    s=open("stopwords.txt").read()
     s2=jieba.lcut(s)
     stopwords2=[]
     for i in s2: stopwords2.append(i)
     stopwords2.append('战争')
 
     stopwords1=['不是','还是','但是','诺兰','战争']
-    wordcloud = WordCloud(font_path='/Users/zcglook/Documents/Py3/simhei.ttf',stopwords=stopwords2,background_color="white",mask=background).generate(text)
+    wordcloud = WordCloud(font_path='simhei.ttf',stopwords=stopwords2,background_color="white",mask=background).generate(text)
     wordcloud.recolor(color_func=ImageColorGenerator(background))
     plt.imshow(wordcloud)
     plt.show()
