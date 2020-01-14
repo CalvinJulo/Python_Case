@@ -31,8 +31,48 @@ for city in cities:
 
 print(attr)
 
-geo=Geo()
-geo.add_schema('china',zoom=1)  #add_schema确认地图类型
-geo.add('china',attr)  #确认展示方式
-get.set_series_opts() 优化数据格式
+geo=Geo()  #Geo地图图表,from pyechart.charts import Geo
+geo.add_schema(
+    maptype='china',  #地图类型，具体参考 pyecharts.datasets.map_filenames.json 文件,一般为地名 maptype: str = "china"
+    is_roam=True,  #是否开启鼠标缩放和平移漫游。is_roam: bool = True,
+    zoom=1,  # 当前视角的缩放比例。默认为 1,zoom: Optional[Numeric] = None,
+    center=[115.97, 29.71]  # 当前视角的中心点，用经纬度表示。例如：center: [115.97, 29.71]
+)  
+
+geo.add(
+    series_name='china',  # 系列名称，用于 tooltip 的显示，legend 的图例筛选。
+    data_pair=attr, # 数据项 (坐标点名称，坐标点值)
+    type_='scatter', # Geo 图类型，有 scatter, effectScatter, heatmap, lines 4 种
+    is_selected=True, # 是否选中图例
+    symbol='circle', # 标记图形形状
+    symbol_size=12, # 标记的大小
+    color='white', #系列 label 颜色
+    is_polyline=False, # 是否是多段线，在画 lines 图情况下
+    is_large=False, # 是否启用大规模线图的优化，在数据图形特别多的时候（>=5k）可以开启
+    trail_length=0.2 # 特效尾迹的长度。取从 0 到 1 的值，数值越大尾迹越长。默认值 0.2
+    large_threshold=2000,# 开启绘制优化的阈值。
+    progressive=400, # 配置该系列每一帧渲染的图形数
+    progressive_threshold=3000, # 启用渐进式渲染的图形数量阈值，在单个系列的图形数量超过该阈值时启用渐进式渲染。
+) 
+
+geo.set_global_opts(
+    title_opts=opts.TitleOpts(title='测试',title_link='www.baidu.com'),
+)
+
+geo.set_series_opts(
+) 优化数据格式
+
 geo.render()
+
+
+    title_opts=opts.TitleOpts(title='测试',title_link='www.baidu.com',title_target='blank',subtitle='测试副标题'),
+    legend_opts=opts.LegendOpts(),
+    tooltip_opts=opts.TooltipOpts(),
+    toolbox_opts=opts.ToolboxOpts(),
+    brush_opts=opts.BrushOpts(),
+    yaxis_opts=opts.,
+    datazoom_opts=opts.DataZoomOpts(),
+    graphic_opts=,
+    axispointer_opts=,
+    visualmap_opts=,
+    xaxis_opts=,)
