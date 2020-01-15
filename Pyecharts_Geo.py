@@ -64,15 +64,3 @@ geo.set_series_opts(
 
 geo.render()
 
-
-    title_opts=opts.TitleOpts(title='测试',title_link='www.baidu.com',title_target='blank',subtitle='测试副标题'),
-    legend_opts=opts.LegendOpts(),
-    tooltip_opts=opts.TooltipOpts(),
-    toolbox_opts=opts.ToolboxOpts(),
-    brush_opts=opts.BrushOpts(),
-    yaxis_opts=opts.,
-    datazoom_opts=opts.DataZoomOpts(),
-    graphic_opts=,
-    axispointer_opts=,
-    visualmap_opts=,
-    xaxis_opts=,)
