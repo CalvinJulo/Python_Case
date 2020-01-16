@@ -1,5 +1,13 @@
 #coding=utf-8
 
+# 问题一,批量获得地址的经纬度
+# 问题二,增加Map,Geo,Map的地点
+# 问题三,美化底层的百度地图
+# 问题四,优化图表的显示,标题、图例、标签
+
+
+
+
 # coding=utf-8
 from pyecharts.charts import BMap
 from pyecharts import options as opts
