@@ -32,6 +32,9 @@ for city in cities:
 print(attr)
 
 geo=Geo()  #Geo地图图表,from pyechart.charts import Geo
+
+Geo.add_coordinate(place,longitude=,latitude=) #增加地点
+
 geo.add_schema(
     maptype='china',  #地图类型，具体参考 pyecharts.datasets.map_filenames.json 文件,一般为地名 maptype: str = "china"
     is_roam=True,  #是否开启鼠标缩放和平移漫游。is_roam: bool = True,
