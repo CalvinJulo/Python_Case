@@ -4,6 +4,18 @@
 from pyecharts.charts import BMap
 from pyecharts import options as opts
 
+#跟进地址获得百度的经纬度
+baidu_ak = 'TEVm10a5xbaf4jtZEd9oGNStNlTTBIKe'
+address='上海'
+
+url='http://api.map.baidu.com/geocoding/v3/?address='+address+'&output=json&ak='+baidu_ak
+res=requests.get(url)
+jd=json.loads(res.text)
+print(jd)
+
+
+
+#百度地图
 
 bmap=BMap()
 bmap.add_schema(
