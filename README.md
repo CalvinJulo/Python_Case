@@ -10,6 +10,7 @@ Daily Python Case
 ## 1.4 数据存储
 
 # 2 可视化
+https://pyecharts.org/
 ## 2.1 地图可视化
 ## 2.2 云词
 ## 2.3 
