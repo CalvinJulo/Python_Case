@@ -3,9 +3,9 @@ Daily Python Case
 
 案例学习,所有项目都是学习笔记
 ## 0 Python入门
-### 安装，终端进入，pycharm方式
-### 标准库教程
-### def,class,常见算法
+### 0.1 安装，终端进入，pycharm方式
+### 0.2 标准库教程
+### 0.3 def,class,常见算法
 
 ## 1 爬虫
 ### 1.1 静态网页，ajax网页抓取
@@ -14,7 +14,7 @@ Daily Python Case
 ### 1.4 数据存储
 
 ## 2 可视化
-https://pyecharts.org/
+>https://pyecharts.org/
 ### 2.1 地图可视化
 ### 2.2 云词
 ### 2.3 关系图
