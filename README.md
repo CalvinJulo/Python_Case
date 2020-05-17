@@ -5,7 +5,7 @@ Daily Python Case
 ## 0 Python入门
 ### 0.1 安装，终端进入，pycharm方式
 ### 0.2 标准库教程
-**OS,Pandas,Numpy
+OS,Pandas,Numpy
 ### 0.3 def,class,常见算法
 
 ## 1 爬虫
