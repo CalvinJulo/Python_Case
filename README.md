@@ -2,6 +2,10 @@
 Daily Python Case
 
 案例学习,所有项目都是学习笔记
+## 0 Python入门
+### 安装，终端进入，pycharm方式
+### 标准库教程
+### def,class,常见算法
 
 ## 1 爬虫
 ### 1.1 静态网页，ajax网页抓取
