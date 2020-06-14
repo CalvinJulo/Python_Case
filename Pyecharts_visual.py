@@ -1,36 +1,40 @@
 # coding=utf-8
 
-#可视化是个非常专业的事情，图表主要还是用来说明问题
-#常用的图表，柱状图Bar，折线图Line，饼图Pie，象形柱状图PictorialBar,散点图Scatter，云词WordCloud
-#图表常见元素，如legend，tooltip，mark，xaxias，yxaxis，需要掌握
-#各图表的数据类型和格式需要掌握，多数据需要了解
-#图表美化，要掌握Theme，color
-#练习以Bar
-
-
-#以下是高级用法
-#Dataset 数据集
-#Grid 并行图表
-#Overlap 层叠图表
-#Page 顺序多图
-#Tab 选项卡多图
-#Theme 主题
-#Timeline 时间线
-
 import pandas as pd
 from pyecharts import options as opts
 from pyecharts.globals import ThemeType
+from pyecharts.faker import Faker
+
+'''
+Pyecharts 生产图表教程
+1、Pyecharts的数据类型，一般都是List，导入之前先生成list类型的数据
+2、图表的数据属性在add_xaxis或add_yaxis修改，如文字样式，线的样式，标签样式
+3、图表的Series属性在函数内完成，包括标记点，标记线、标签样式、线样式
+4、图表的global属性在render之前完成，包括图表标题、工具箱、图例、x轴y轴配置、视觉映射、图表主题
+5、图表render生成，先导出html，再下载。改变图表大小，在init里设置
+
+高级设置
+如何设置图表背景
+如何设置图表主题
+如何设置数据视觉变化
+如何设置标签的图标
+如何基于Json配置图表
+如何设置Graphic图形组件
+'''
+
 class charts:
-    def bar(x_data, y_data):
+    #1、直方图的设置，如果数据系列在两个以内，直接bar(x_data, y_data1,y_data2=None)生成
+    #2、数据系列大于三个及以上，重新增加bar.add_yaxis()
+    #3、数据需要堆砌，则bar.add_yaxis()里增加stack；轴互换对调则ar.reversal_axis()；增加轴bar.extend_axis()
+    def bar(x_data, y_data1,y_data2=None):
         from pyecharts.charts import Bar
         bar = Bar(init_opts=opts.InitOpts(width='900px',height='500px',
                                           page_title='测试',
                                           bg_color='White'
                                           ))
         bar.add_xaxis(xaxis_data=x_data)
-        #bar.add_yaxis(series_name="系列2", yaxis_data=y_data2, stack="stack1")
         bar.add_yaxis(series_name='系列1',
-                      yaxis_data=y_data,
+                      yaxis_data=y_data1,
                       xaxis_index=None,
                       yaxis_index=None,
                       is_selected=True,
@@ -83,6 +87,9 @@ class charts:
                                                         opacity=None
                                                         )
                       )
+        if y_data2 !=None:
+            bar.add_yaxis('系列2',y_data2)
+        #bar.add_yaxis(series_name="系列2", yaxis_data=y_data2, stack="stack1")
         #bar.extend_axis()
         #bar.reversal_axis()
         bar.set_series_opts(label_opts=opts.LabelOpts(is_show=True,
@@ -96,21 +103,6 @@ class charts:
                                                                     opts.MarkPointItem(type_="min", name="最小值")]),
                             tooltip_opts={},
                             itemstyle_opts={}
-                            )
-        bar.set_global_opts(title_opts=opts.TitleOpts(title="Bar-旋转X轴标签", subtitle="解决标签名字过长的问题",
-                                                      title_textstyle_opts=opts.TextStyleOpts(color='red')),
-                            xaxis_opts=opts.AxisOpts(name='X轴',axislabel_opts=opts.LabelOpts(rotate=-15)),
-                            yaxis_opts=opts.AxisOpts(name="Y轴",
-                                                     type_="value",
-                                                     axistick_opts=opts.AxisTickOpts(is_show=False),
-                                                     splitline_opts=opts.SplitLineOpts(is_show=True)
-                                                     ),
-                            tooltip_opts = opts.TooltipOpts(is_show=True, trigger="mousemove|click", axis_pointer_type=None),
-                            brush_opts=opts.BrushOpts(),
-                            datazoom_opts=None,
-                            toolbox_opts=opts.ToolboxOpts(),
-                            legend_opts=opts.LegendOpts(is_show=True),
-                            #visualmap_opts=opts.VisualMapOpts()
                             )
         return bar
 
@@ -126,7 +118,7 @@ class charts:
                                label_opts=opts.LabelOpts(position='right')
                                )
         pictorialBar.reversal_axis()
-        pictorialBar.set_global_opts(title_opts=opts.TitleOpts(title='pictorialBar象形柱图'))
+        #pictorialBar.set_series_opts()
         return pictorialBar
 
     def line(x_data,y_data):
@@ -134,6 +126,7 @@ class charts:
         line=Line()
         line.add_xaxis(xaxis_data=x_data)
         line.add_yaxis(series_name='line测试',y_axis=y_data)
+        #line.set_series_opts()
         return line
 
     def pie(x_data,y_data):
@@ -146,37 +139,129 @@ class charts:
                 radius=["40%", "55%"],
                 label_opts=opts.LabelOpts(position="inner")
                 )
+        #pie.set_series_opts()
         return pie
 
-    def heatmap(self):
+    def funnel(x_data,y_data):
+        from pyecharts.charts import Funnel
+        funnel=Funnel()
+        funnel.add('漏斗图',[list(z) for z in zip(x_data, y_data)])
+        return funnel
+
+    def heatmap(x_data,y_data,z_data=None):
         from pyecharts.charts import HeatMap
+        import random
+        heatmap=HeatMap()
+        heatmap.add_xaxis(xaxis_data=x_data)
+        heatmap.add_yaxis(series_name='热力图',yaxis_data=y_data,
+                          value=[[i, j, random.randint(0, 50)] for i in range(len(x_data)) for j in range(len(y_data))])
+        return heatmap
 
     def wordcloud(x_data,y_data):
         from pyecharts.charts import WordCloud
         datalist = [list(z) for z in zip(x_data, y_data)]
         wordcloud=WordCloud()
         wordcloud.add(series_name='',data_pair=datalist)
+        #wordcloud.set_series_opts()
         return wordcloud
 
     def tree(self):
-        return
+        from pyecharts.charts import Tree
 
     def scatter(x_data,y_data):
-        from pyecharts.charts import  Scatter
+        from pyecharts.charts import Scatter
         scatter=Scatter()
         scatter.add_xaxis(xaxis_data=x_data)
         scatter.add_yaxis(series_name='scattercase',y_axis=y_data)
-        scatter.set_global_opts(xaxis_opts=opts.AxisOpts(type_="value", splitline_opts=opts.SplitLineOpts(is_show=True)))
+        scatter.set_series_opts()
         return scatter
 
     def graph(self):
         return
 
-a=['名称1','名称2','名称3','名称4']
-b=[4,20,18,9]
-b1=[46,29,34,79]
-c=charts.wordcloud(a,b)
-c.set_global_opts(title_opts=opts.TitleOpts(title="Bar-旋转X轴标签", subtitle="解决标签名字过长的问题"),
-                  toolbox_opts=opts.ToolboxOpts(is_show=True))
-c.render('case.html')
+    def grid(chart1,chart2):
+        from pyecharts.charts import Grid
+        grid=Grid()
+        grid.add(chart1,grid_opts=opts.GridOpts(pos_bottom="60%"))
+        grid.add(chart2,grid_opts=opts.GridOpts(pos_top="60%"))
+        return grid
 
+    def page(chart1,chart2):
+        from pyecharts.charts import Page
+        page=Page(layout=Page.DraggablePageLayout)
+        page.add(chart1,chart2)
+        return page
+
+
+
+x_data=['名称1','名称2','名称3','名称4']
+y_data1=[4,20,18,9]
+y_data2=[46,29,34,79]
+
+
+c_bar=charts.bar( x_data,y_data1,y_data2)
+c_pictorailBar=charts.pictorialBar(x_data,y_data1)
+c_line=charts.line(x_data,y_data1)
+c_wrodcloud=charts.wordcloud(x_data,y_data1)
+c_pie=charts.pie(x_data,y_data1)
+c_funnel=charts.funnel(x_data,y_data1)
+c_heatmap=charts.heatmap(x_data,y_data1)
+c_scatter=charts.scatter(x_data,y_data1)
+c_bar_line=charts.bar(x_data,y_data2).overlap(charts.line(x_data,y_data1))
+c_grid=charts.grid(charts.bar(x_data,y_data1),charts.line(x_data,y_data1))
+c_page=charts.page(charts.bar(x_data,y_data1),charts.line(x_data,y_data1))
+
+
+c_bar.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题",
+                                              title_textstyle_opts=opts.TextStyleOpts(color='red')),
+                    xaxis_opts=opts.AxisOpts(name='X轴', axislabel_opts=opts.LabelOpts(rotate=-15)),
+                    yaxis_opts=opts.AxisOpts(name="Y轴",
+                                             type_="value",
+                                             axistick_opts=opts.AxisTickOpts(is_show=False),
+                                             splitline_opts=opts.SplitLineOpts(is_show=True)
+                                             ),
+                    tooltip_opts=opts.TooltipOpts(is_show=True, trigger="mousemove|click", axis_pointer_type=None),
+                    brush_opts=opts.BrushOpts(),
+                    datazoom_opts=None,
+                    toolbox_opts=opts.ToolboxOpts(),
+                    legend_opts=opts.LegendOpts(is_show=True),
+                    # visualmap_opts=opts.VisualMapOpts()
+                    )
+c_pictorailBar.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True))
+c_line.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True))
+c_wrodcloud.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True))
+c_pie.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True))
+c_funnel.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True))
+c_heatmap.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True),visualmap_opts=opts.VisualMapOpts())
+c_scatter.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True))
+c_bar_line.set_global_opts(title_opts=opts.TitleOpts(title="主标题", subtitle="次标题"),
+                  toolbox_opts=opts.ToolboxOpts(is_show=True))
+
+from pyecharts.charts import Tab
+tab=Tab()
+tab.add(c_bar,'直方图')
+tab.add(c_pictorailBar,'象形直方图')
+tab.add(c_line,'折线图')
+tab.add(c_wrodcloud,'云词')
+tab.add(c_pie,'饼图')
+tab.add(c_funnel,'漏斗图')
+tab.add(c_heatmap,'热力图')
+tab.add(c_scatter,'散点图')
+tab.add(c_bar_line,'直方图折线图')
+tab.add(c_grid,'组合图形')
+tab.add(c_page,'页面组合')
+tab.render('Pyecharts可视化.html')
+
+
+#Dataset 数据集
+#Page 顺序多图
+#Theme 主题
+#Timeline 时间线
+#Table
