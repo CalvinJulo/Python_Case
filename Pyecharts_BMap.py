@@ -85,27 +85,35 @@ bmap.add_schema(
 bmap.add(
     series_name='demo',
     data_pair=[('绩溪',100),('上海',100),('杭州',100)],
+    #data_pair=[list(z) for z in zip(x_data, y_data)],
     type_='scatter',  #图类型，散点图scatter, effectScatter, 热力图heatmap, 直线图lines 4 种
     #is_selected=True,
     #symbol='circle', #标记图形形状，circle，triangle，rectangle，star
     #symbol_size=12, #标记图形大小
-    color='red', #系列label颜色
-    label_opts=opts.LabelOpts(formatter='{b}')
+    #color='red', #系列label颜色
+    label_opts=opts.LabelOpts(formatter='{b}'),
+    itemstyle_opts=opts.ItemStyleOpts(color="purple"),
 )
 
 bmap.set_global_opts(
-    title_opts=opts.TitleOpts(title='BMap-基本示例'),
-    visualmap_opts=opts.VisualMapOpts()
+    title_opts=opts.TitleOpts(title='百度地图',
+                              subtitle="data from PM25.in",
+                              #subtitle_link="http://www.pm25.in",
+                              #pos_left="center",
+                              #title_textstyle_opts=opts.TextStyleOpts(color="#fff")
+                              ),
+    toolbox_opts=opts.ToolboxOpts(is_show=True),
+    visualmap_opts=opts.VisualMapOpts(max_=len(df)),
 )
 
 '''
 bmap.add_control_panel(
-    navigation_control_opts=,
-    overview_map_opts=,
-    scale_control_opts=,
-    maptype_control_opts=,
-    copyright_control_opts=,
-    geo_location_control_opts=,
+    copyright_control_opts=opts.BMapCopyrightTypeOpts(position=3),
+    maptype_control_opts=opts.BMapTypeControlOpts(),
+    scale_control_opts=opts.BMapScaleControlOpts(),
+    overview_map_opts=opts.BMapOverviewMapControlOpts(is_open=True),
+    navigation_control_opts=opts.BMapNavigationControlOpts(),
+    geo_location_control_opts=opts.BMapGeoLocationControlOpts()
 )
 '''
 bmap.render()
