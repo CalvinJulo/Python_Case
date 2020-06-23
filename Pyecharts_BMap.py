@@ -15,22 +15,28 @@ from pyecharts import options as opts
 bmap=BMap()
 
 #跟进地址获得百度的经纬度
-addresses=[
+
+data_name=['数据1'，'数据2'，'数据3'，'数据4']
+
+data_addresses=[
     '上海市黄浦区南京西路258号',
     '上海市静安区秣陵路228号',
     '上海市静安区南京西路555号',
-    '上海普陀区长寿路868号',
-    '上海市静安区延安西路200号',
-    '静安区芷江西路788号',
-    '上海市黄浦区黄陂北路227号'
+    '上海普陀区长寿路868号'
 ]
+
+data_size=[12,10,30,5]
+
+
+
 baidu_ak = 'TEVm10a5xbaf4jtZEd9oGNStNlTTBIKe'
 
-for address in addresses:
+for i in range(0,len(data_addresses):
+    address=data_addresses[i]
     url='http://api.map.baidu.com/geocoding/v3/?address='+address+'&output=json&ak='+baidu_ak
     res=requests.get(url)
     jd=json.loads(res.text)['result']['location']
-    bmap.add_coordinate(address,jd['lng'],jd['lat'])
+    bmap.add_coordinate(data_name[i],jd['lng'],jd['lat'])
 
 #百度地图
 bmap.add_schema(
@@ -84,8 +90,8 @@ bmap.add_schema(
 
 bmap.add(
     series_name='demo',
-    data_pair=[('绩溪',100),('上海',100),('杭州',100)],
-    #data_pair=[list(z) for z in zip(x_data, y_data)],
+    #data_pair=[('绩溪',100),('上海',100),('杭州',100)],
+    data_pair=[list(z) for z in zip(data_name, data_size)],
     type_='scatter',  #图类型，散点图scatter, effectScatter, 热力图heatmap, 直线图lines 4 种
     #is_selected=True,
     #symbol='circle', #标记图形形状，circle，triangle，rectangle，star
